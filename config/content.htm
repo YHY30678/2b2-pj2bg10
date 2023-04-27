@@ -9,7 +9,95 @@
 <p>41023244 廖崇軒</p>
 <h1>H1</h1>
 <h2>W10</h2>
-<h1>w9</h1>
+<p></p>
+<p height="480" id="container2" width="640"></p>
+<p>
+<script type="text/python">
+from browser import document, window
+
+# Set up the Three.js scene
+container = document['container2']
+scene = window.THREE.Scene.new()
+camera = window.THREE.PerspectiveCamera.new(75, 640 /480, 0.1, 1000)
+renderer = window.THREE.WebGLRenderer.new()
+renderer.setSize(640, 480)
+container <= renderer.domElement
+
+# Create a cube
+geometry = window.THREE.BoxGeometry.new(1, 1, 1)
+material = window.THREE.MeshBasicMaterial.new({'color': 0x00ff00})
+cube = window.THREE.Mesh.new(geometry, material)
+scene.add(cube)
+
+# Move the camera back so we can see the cube
+camera.position.z = 5
+
+# Set up a Raycaster for mouse interaction
+raycaster = window.THREE.Raycaster.new()
+mouse = window.THREE.Vector2.new()
+
+# Define a function to handle mouse move events
+def on_mouse_move(event):
+    # Calculate the mouse position in normalized device coordinates
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+
+# Register the mouse move event handler
+document.bind('mousemove', on_mouse_move)
+
+# Define the animation loop
+def animate(timestamp):
+    # Update the Raycaster with the current mouse position
+    raycaster.setFromCamera(mouse, camera)
+    
+    # Check if the Raycaster intersects with the cube
+    intersects = raycaster.intersectObject(cube)
+    
+    # Change the cube color if it is intersected
+    if len(intersects) > 0:
+        cube.material.color.set(0xff0000)
+    else:
+        cube.material.color.set(0x00ff00)
+    
+    # Rotate the cube
+    cube.rotation.x += 0.01
+    cube.rotation.y += 0.01
+    
+    # Render the scene
+    renderer.render(scene, camera)
+    
+    # Request the next frame
+    window.requestAnimationFrame(animate)
+
+# Start the animation loop
+window.requestAnimationFrame(animate)
+</script>
+</p>
+<p>STL part viewer</p>
+<p height="480" id="stl" width="640"></p>
+<p>
+<script type="text/python">
+from browser import document, html
+
+# Create a container for the STL viewer
+stl_container = html.DIV(id="stl_cont")
+stl = document["stl"]
+stl <= stl_container
+
+# Load the Stl Viewer Javascript Plugin
+stl_viewer_script = html.SCRIPT(src="https://www.viewstl.com/plugin/stl_viewer.min.js")
+stl <= stl_viewer_script
+
+def init_stl_viewer():
+    # Create a new instance of Stl Viewer
+    stl_viewer = window.StlViewer.new(document.getElementById("stl_cont"), {"models": [{"id": 0, "filename": "/downloads/block100.stl"}]})
+
+# Wait for the Stl Viewer Javascript Plugin to load before initializing the viewer
+document.bind("readystatechange", lambda: init_stl_viewer() if document.readyState == "complete" else None)
+</script>
+</p>
+<p>Using <a href="https://www.sciencedirect.com/science/article/pii/S0950705115005043">sine-cosine algorithm</a> to optimize with constraints in Brython:</p>
+<p>Plot the result by using <a href="https://plotly.com/javascript/">plotly.js</a>:</p><h1>w9</h1>
 <h2>41023236</h2>
 <p>這週是讓我們先熟習怎麼樣同時操控兩台車子去讓他行走，還有讓他能觸碰方塊並推著方塊走，但是實際去糙做的時候遇到的問題是不知道怎麼讓車子動起來，這是我們現在要去思考的事情，之後幾週會變成4台車一起跑，希望能夠快點找到方法讓他跑起來在嘗試4台車一起跑。</p>
 <p>更新：成功讓車子跑起來了，發現原因是因為我沒有下載pip install pyzmq、cbor、keyboard分別這三個，分別下載完之後，再重新GO一次就可以了，接下來再往4台車動起來邁進。</p>
