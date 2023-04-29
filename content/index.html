@@ -129,7 +129,7 @@ img.add_border {
                             <li><a href="./../blog/index.html">blog</a></li>
                         </ul>
                       </li>
-                     <li><a href='About.html'>About</a><li class='has-children'><a href='H1.html'>H1</a><ul class='dropdown'><li><a href='W10.html'>W10</a></li></ul><li class='has-children'><a href='w9.html'>w9</a><ul class='dropdown'><li><a href='41023236.html'>41023236</a><li><a href='41023240.html'>41023240</a><li><a href='41023241.html'>41023241</a><li><a href='41023244.html'>41023244</a></li></ul><li><a href='w10.html'>w10</a><li class='has-children'><a href='Brython.html'>Brython</a><ul class='dropdown'><li><a href='Brython_ex2.html'>Brython_ex2</a></li>
+                     <li><a href='About.html'>About</a><li class='has-children'><a href='w9.html'>w9</a><ul class='dropdown'><li><a href='41023236.html'>41023236</a><li><a href='41023240.html'>41023240</a><li><a href='41023241.html'>41023241</a><li><a href='41023244.html'>41023244</a></li></ul><li><a href='w10.html'>w10</a><li class='has-children'><a href='Brython.html'>Brython</a><ul class='dropdown'><li><a href='Brython_ex2.html'>Brython_ex2</a></li>
                       </ul>
                 </nav>
               </div>
@@ -140,7 +140,7 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content"> <a href='H1.html'>Next</a> >> H1<br /><h1>About</h1>
+    <div id="tipue_search_content"> <a href='w9.html'>Next</a> >> w9<br /><h1>About</h1>
 <p>cdtemplate</p>
 <p><a href="https://mde.tw/pjcopsim">https://mde.tw/pjcopsim</a></p>
 <p><a href="https://mdecd2023.github.io/2b2-pj2bg10/content/index.html">靜態網站</a></p>
@@ -149,7 +149,71 @@ img.add_border {
 <p>41023240 葉桓亞</p>
 <p>41023241 詹耀賢 </p>
 <p>41023244 廖崇軒</p>
-<br /> <a href='H1.html'>Next</a> >> H1</div>
+<p></p>
+<p height="480" id="container2" width="640"></p>
+<p>
+<script type="text/python">
+from browser import document, window
+
+# Set up the Three.js scene
+container = document['container2']
+scene = window.THREE.Scene.new()
+camera = window.THREE.PerspectiveCamera.new(75, 640 /480, 0.1, 1000)
+renderer = window.THREE.WebGLRenderer.new()
+renderer.setSize(640, 480)
+container <= renderer.domElement
+
+# Create a cube
+geometry = window.THREE.BoxGeometry.new(1, 1, 1)
+material = window.THREE.MeshBasicMaterial.new({'color': 0x00ff00})
+cube = window.THREE.Mesh.new(geometry, material)
+scene.add(cube)
+
+# Move the camera back so we can see the cube
+camera.position.z = 5
+
+# Set up a Raycaster for mouse interaction
+raycaster = window.THREE.Raycaster.new()
+mouse = window.THREE.Vector2.new()
+
+# Define a function to handle mouse move events
+def on_mouse_move(event):
+    # Calculate the mouse position in normalized device coordinates
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+
+# Register the mouse move event handler
+document.bind('mousemove', on_mouse_move)
+
+# Define the animation loop
+def animate(timestamp):
+    # Update the Raycaster with the current mouse position
+    raycaster.setFromCamera(mouse, camera)
+    
+    # Check if the Raycaster intersects with the cube
+    intersects = raycaster.intersectObject(cube)
+    
+    # Change the cube color if it is intersected
+    if len(intersects) > 0:
+        cube.material.color.set(0xff0000)
+    else:
+        cube.material.color.set(0x00ff00)
+    
+    # Rotate the cube
+    cube.rotation.x += 0.01
+    cube.rotation.y += 0.01
+    
+    # Render the scene
+    renderer.render(scene, camera)
+    
+    # Request the next frame
+    window.requestAnimationFrame(animate)
+
+# Start the animation loop
+window.requestAnimationFrame(animate)
+</script>
+</p>
+<br /> <a href='w9.html'>Next</a> >> w9</div>
         
     <!-- footer -->
       <div class="container">
